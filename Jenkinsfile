@@ -25,9 +25,9 @@ pipeline {
         stage('buildImage'){
             steps {
                  script {
-                    buildImage 'zahranjamali/myrepo:java-maven-app-rev-2.0'
+                    buildImage 'zahranjamali/myrepo:java-maven-app-rev-3.0'
                     dockerLogin()
-                    dockerPush 'zahranjamali/myrepo:java-maven-app-rev-2.0'
+                    dockerPush 'zahranjamali/myrepo:java-maven-app-rev-3.0'
                 }
             }
         }
