@@ -29,7 +29,7 @@ pipeline {
         stage('buildImage'){
             when {
                 expression {
-                    BRANCH_NAME == master
+                    BRANCH_NAME == 'master'
                 }
             }
             steps {
@@ -40,8 +40,8 @@ pipeline {
         }
         stage('pushImage'){
              when {
-                expression {
-                    BRANCH_NAME == master
+                expression 
+                    BRANCH_NAME == 'master'
                 }
             }
             steps {
