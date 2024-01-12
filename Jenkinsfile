@@ -37,14 +37,6 @@ pipeline {
                 }
             }
         }
-        post {
-            success {
-                sh 'echo successful'
-            }
-            failure {
-                sh 'echo failed'
-            }
-        }
     }
 }
 
