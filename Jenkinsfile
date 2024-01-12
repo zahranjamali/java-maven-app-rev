@@ -25,14 +25,14 @@ pipeline {
         stage('buildImage'){
             steps {
                  script {
-                    buildImage()
+                    buildImage 'zahranjamali/myrepo:java-maven-app-rev-2.0'
                 }
             }
         }
         stage('pushImage'){
             steps {
                  script {
-                    pushImage()
+                    pushImage 'zahranjamali/myrepo:java-maven-app-rev-2.0'
                 }
             }
         }
