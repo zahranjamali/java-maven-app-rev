@@ -26,13 +26,8 @@ pipeline {
             steps {
                  script {
                     buildImage 'zahranjamali/myrepo:java-maven-app-rev-2.0'
-                }
-            }
-        }
-        stage('pushImage'){
-            steps {
-                 script {
-                    pushImage 'zahranjamali/myrepo:java-maven-app-rev-2.0'
+                    dockerLogin()
+                    dockerPush 'zahranjamali/myrepo:java-maven-app-rev-2.0'
                 }
             }
         }
