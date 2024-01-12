@@ -1,38 +1,42 @@
+def gv
 pipeline {
     agent any
     tools {
         maven 'mymaven'
     }
     stages {
-        stage('Build'){
+        stage('init'){
             steps {
                 script {
-                    sh 'mvn package'
+                    gv = load "script.groovy"
                 }
             }
         }
-        stage('Test'){
+        stage('build'){
+            steps {
+                script {
+                    gv.build()
+                }
+            }
+        }
+        stage('test'){
             steps {
                  script {
-                    echo "testing the image"
+                    gv.test
                 }
             }
         }
         stage('buildImage'){
             steps {
                  script {
-                    echo "building the image"
-                    sh 'docker build -t zahranjamali/myrepo:java-maven-app-rev-1.1 .'
+                    gv.buildImage()
                 }
             }
         }
         stage('pushImage'){
             steps {
                  script {
-                    echo "pushing to docker hub"
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_REPO', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh 'docker push zahranjamali/myrepo:java-maven-app-rev-1.1'
+                    gv.pushImage()
                     }
                 }
             }
