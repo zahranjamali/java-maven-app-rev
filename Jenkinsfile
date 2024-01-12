@@ -40,7 +40,7 @@ pipeline {
         }
         stage('pushImage'){
              when {
-                expression 
+                expression {
                     BRANCH_NAME == 'master'
                 }
             }
