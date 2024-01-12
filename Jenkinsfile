@@ -22,7 +22,7 @@ pipeline {
         stage('test'){
             steps {
                  script {
-                    gv.test
+                    gv.test()
                 }
             }
         }
