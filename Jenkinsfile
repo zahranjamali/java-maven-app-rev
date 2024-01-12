@@ -1,52 +1,38 @@
-def gv
+#!/usr/bin/env groovy
+
+@Library('jenkins-shared-lib-rev')_
+
 pipeline {
     agent any
     tools {
         maven 'mymaven'
     }
     stages {
-        stage('init'){
+        stage('buildJar'){
             steps {
                 script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
-        stage('build'){
-            steps {
-                script {
-                    gv.build()
+                    buildJar()
                 }
             }
         }
         stage('test'){
             steps {
                  script {
-                    gv.test()
+                    echo 'testing the app'
                 }
             }
         }
         stage('buildImage'){
-            when {
-                expression {
-                    BRANCH_NAME == master
-                }
-            }
             steps {
                  script {
-                    gv.buildImage()
+                    buildImage()
                 }
             }
         }
         stage('pushImage'){
-             when {
-                expression {
-                    BRANCH_NAME == master
-                }
-            }
             steps {
                  script {
-                    gv.pushImage()
+                    pushImage()
                 }
             }
         }
