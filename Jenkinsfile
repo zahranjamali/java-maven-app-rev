@@ -22,7 +22,7 @@ pipeline {
             steps {
                  script {
                     echo "building the image"
-                    sh 'docker build -t java-maven-app-rev-1.1 .'
+                    sh 'docker build -t zahranjamali/myrepo:java-maven-app-rev-1.1 .'
                 }
             }
         }
