@@ -30,7 +30,7 @@ pipeline {
             steps {
                  script {
                     echo "pushing to docker hub"
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_REPO', passwordVariable: 'PASS', usernameVariable 'USER')]){
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_REPO', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                         sh "echo $PASS | docker login -u $USER --password-stdin"
                         sh 'docker push zahranjamali/myrepo:java-maven-rev-1.1'
                     }
