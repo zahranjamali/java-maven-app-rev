@@ -46,6 +46,26 @@ pipeline {
                 }
             }
         }
+        stage('commit version bumping') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDS', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh 'git config --global user.email "jenkins@example.com"'
+                        sh 'git config --global user.name "Jenkins"'
+
+                        sh 'git status'
+                        sh 'git branch'
+                        sh 'git config --list'
+
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/zahranjamali/java-maven-app-rev.git"
+                        sh 'git add .'
+                        sh 'git commit -m 'commit version bumping''
+                        sh 'git push origin HEAD:feature/version-bump
+'
+                    }
+                }
+            }
+        }
     }
 }
 
