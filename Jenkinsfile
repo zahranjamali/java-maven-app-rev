@@ -1,17 +1,29 @@
 #!/usr/bin/env groovy
 
-@Library('jenkins-shared-lib-rev')_
-
 pipeline {
     agent any
     tools {
         maven 'mymaven'
     }
     stages {
+        stage('incrementVersion') {
+            steps {
+                script {
+                    echo 'incrementing the version'
+                    sh 'mvn build-helper:parse-version versions:set \
+                        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+                        versions:commit'
+                        def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                        def version = matcher[0][1]
+                        env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+                }
+            }
+        }
         stage('buildJar'){
             steps {
                 script {
-                    buildJar()
+                    echo 'building the jar file with version bumping'
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -25,9 +37,12 @@ pipeline {
         stage('buildImage'){
             steps {
                  script {
-                    buildImage 'zahranjamali/myrepo:java-maven-app-rev-3.0'
-                    dockerLogin()
-                    dockerPush 'zahranjamali/myrepo:java-maven-app-rev-3.0'
+                    echo "building the image"
+                    sh "docker build -t zahranjamali/myrepo:${IMAGE_NAME} ."
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_REPO', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                                sh "echo $PASS | docker login -u $USER --password-stdin"
+                                sh "docker push zahranjamali/myrepo:${IMAGE_NAME}"
+                    }
                 }
             }
         }
