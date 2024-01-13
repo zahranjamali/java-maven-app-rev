@@ -61,7 +61,6 @@ pipeline {
                         sh 'git add .'
                         sh 'git commit -m 'commit version bumping''
                         sh 'git push origin HEAD:feature/version-bump'
-'
                     }
                 }
             }
